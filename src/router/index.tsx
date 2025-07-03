@@ -1,4 +1,5 @@
 import RootLayout from "@/layouts/RootLayout";
+import HomePage from "@/pages/HomePage";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -8,7 +9,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <p>Home Page</p>,
+        Component: HomePage,
       },
       {
         path: "ping",

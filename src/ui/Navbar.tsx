@@ -28,10 +28,7 @@ const NavBar = () => {
     { to: "/", label: "Home" },
     { to: "/books", label: "Books" },
     { to: "/create-book", label: "Add Book" },
-    { to: "/borrow-summary", label: "Borrow Summary" },
-    { to: "/events", label: "Events" },
-    { to: "/add-event", label: "Add Event" },
-    { to: "/my-events", label: "My Events" },
+    { to: "/borrow-summary", label: "Borrow Summary" }
   ];
 
   return (
@@ -41,7 +38,7 @@ const NavBar = () => {
           <div className="flex gap-4">
             <ModeToggle />
             <Link to="/" className="flex items-center space-x-3">
-              <span className="text-3xl font-semibold whitespace-nowrap font-open-sans">
+              <span className="text-2xl font-semibold whitespace-nowrap font-open-sans">
                 Kitler Library
               </span>
             </Link>

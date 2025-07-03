@@ -1,12 +1,23 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
+            <script>
+      // Prevent theme flicker
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (_) {}
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>Kitler Library</title>
   </head>
-  <body class="bg-background">
+  <body class="bg-background jetbrains-mono">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
