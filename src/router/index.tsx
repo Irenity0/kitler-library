@@ -1,4 +1,5 @@
 import RootLayout from "@/layouts/RootLayout";
+import DetailsPage from "@/pages/DetailsPage";
 import HomePage from "@/pages/HomePage";
 import BookTable from "@/ui/BookTable";
 import { createBrowserRouter } from "react-router";
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "books/:id",
-        element: <p>Book Details</p>,
+        element: <DetailsPage/>,
       },
       {
         path: "edit-book/:id",
