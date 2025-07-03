@@ -1,5 +1,6 @@
 import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/HomePage";
+import BookTable from "@/ui/BookTable";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: "books",
-        element: <p>Books List</p>,
+        element: <BookTable/>,
       },
       {
         path: "create-book",

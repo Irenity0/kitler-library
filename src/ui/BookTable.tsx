@@ -53,7 +53,7 @@ const books: Book[] = [
     author: "Tsugumi Ohba",
     genre: "Manga, Thriller",
     isbn: "9781421501686",
-    copies: 2,
+    copies: 0,
   },
   {
     _id: "6",
@@ -93,7 +93,7 @@ const books: Book[] = [
     author: "Alex Michaelides",
     genre: "Psychological Thriller",
     isbn: "9781250301697",
-    copies: 4,
+    copies: 0,
   },
   {
     _id: "11",
@@ -117,7 +117,7 @@ const books: Book[] = [
     author: "Hitoshi Iwaaki",
     genre: "Manga, Sci-Fi Horror",
     isbn: "9781421520241",
-    copies: 2,
+    copies: 0,
   },
   {
     _id: "14",
@@ -141,7 +141,7 @@ const books: Book[] = [
     author: "Adachitoka",
     genre: "Manga, Supernatural",
     isbn: "9780316209840",
-    copies: 3,
+    copies: 0,
   },
   {
     _id: "17",
