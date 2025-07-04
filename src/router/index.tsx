@@ -1,5 +1,6 @@
 import RootLayout from "@/layouts/RootLayout";
 import BorrowBookPage from "@/pages/BorrowBookForm";
+import BorrowSummaryPage from "@/pages/BorrowSummaryPage";
 import CreateBookPage from "@/pages/CreateBookPage";
 import DetailsPage from "@/pages/DetailsPage";
 import HomePage from "@/pages/HomePage";
@@ -41,20 +42,8 @@ const router = createBrowserRouter([
       },
       {
         path: "borrow-summary",
-        element: <p>Borrow Summary</p>,
-      },
-      {
-        path: "events",
-        element: <p>Events List</p>,
-      },
-      {
-        path: "add-event",
-        element: <p>Add Event Form</p>,
-      },
-      {
-        path: "my-events",
-        element: <p>My Events</p>,
-      },
+        element: <BorrowSummaryPage/>,
+      }
     ],
   },
 ]);
