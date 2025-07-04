@@ -47,7 +47,6 @@ const AddBookForm = () => {
         isCreateRoute ? "w-1/2" : ""
       }`}
     >
-      <h1 className="text-2xl font-bold mb-4">Add New Book</h1>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div>
           <Label className="mb-2" htmlFor="title">Title</Label>
