@@ -1,3 +1,4 @@
+import AddBookForm from "@/components/AddBookForm";
 import RootLayout from "@/layouts/RootLayout";
 import DetailsPage from "@/pages/DetailsPage";
 import HomePage from "@/pages/HomePage";
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "create-book",
-        element: <p>Create Book Form</p>,
+        element: <AddBookForm/>,
       },
       {
         path: "books/:id",

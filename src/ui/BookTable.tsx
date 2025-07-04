@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import SplitText from "./SplitText";
+import AddBookModal from "@/components/ui/AddBookModal";
 
 export interface Book {
   _id: string;
@@ -12,6 +14,8 @@ export interface Book {
 }
 
 const BookTable = () => {
+  const [open, setOpen] = useState(false);
+
   const loading = false;
   const isError = false;
 
@@ -198,9 +202,12 @@ const books: Book[] = [
           onLetterAnimationComplete={handleAnimationComplete}
         />
       </div>
+
       <div className="w-full mx-auto my-8 px-4">
         <div className="mb-4 text-right">
-          <Button size="sm">+ Add New Book</Button>
+          <Button size="sm" onClick={() => setOpen(true)}>
+            + Add New Book
+          </Button>
         </div>
 
         {loading ? (
@@ -239,10 +246,7 @@ const books: Book[] = [
                       className="hover:bg-muted/60 transition-colors"
                     >
                       <td className="px-2 py-2">
-                        <Link
-                          to={`/books/${book._id}`}
-                          className="underline"
-                        >
+                        <Link to={`/books/${book._id}`} className="underline">
                           {book.title}
                         </Link>
                       </td>
@@ -278,14 +282,8 @@ const books: Book[] = [
                         >
                           Borrow
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                        >
-                          <Link to={`/books/${book._id}`}>
-                            Details
-                          </Link>
+                        <Button variant="outline" size="sm" asChild>
+                          <Link to={`/books/${book._id}`}>Details</Link>
                         </Button>
                       </td>
                     </tr>
@@ -296,6 +294,9 @@ const books: Book[] = [
           </div>
         )}
       </div>
+
+      {/* Add Book Modal */}
+      <AddBookModal open={open} onOpenChange={setOpen} />
     </>
   );
 };
