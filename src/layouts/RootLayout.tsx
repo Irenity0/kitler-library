@@ -1,6 +1,7 @@
 import Footer from "@/ui/Footer";
 import NavBar from "@/ui/Navbar";
 import { Outlet, useLocation } from "react-router";
+import { Toaster } from 'react-hot-toast';
 
 const RootLayout = () => {
 
@@ -14,6 +15,7 @@ const RootLayout = () => {
             <Outlet/>
         </div>
        {isHomeRoute &&  <Footer/>}
+       <Toaster/>
         </>
     );
 };

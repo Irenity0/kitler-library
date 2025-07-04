@@ -1,4 +1,5 @@
 import RootLayout from "@/layouts/RootLayout";
+import BorrowBookPage from "@/pages/BorrowBookForm";
 import CreateBookPage from "@/pages/CreateBookPage";
 import DetailsPage from "@/pages/DetailsPage";
 import HomePage from "@/pages/HomePage";
@@ -35,8 +36,8 @@ const router = createBrowserRouter([
         element: <p>Edit Book</p>,
       },
       {
-        path: "borrow/:bookId",
-        element: <p>Borrow Book Form</p>,
+        path: "borrow/:id",
+        element: <BorrowBookPage/>,
       },
       {
         path: "borrow-summary",
