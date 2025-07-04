@@ -181,7 +181,7 @@ const DetailsPage = () => {
 
   if (!book) {
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center text-neutral-300 p-4">
+      <div className="flex flex-col justify-center items-center text-neutral-300 p-4">
         <p className="text-xl font-semibold mb-2">Book not found 😕</p>
         <p className="text-neutral-400">Redirecting to home...</p>
       </div>
@@ -189,7 +189,7 @@ const DetailsPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-6">
+    <div className="h-[643px] flex justify-center items-center p-6">
       <div className="max-w-md w-full rounded-lg shadow-md p-8">
         <h1 className="text-3xl font-bold mb-4 text-neutral-300">{book.title}</h1>
         <p className="text-neutral-400 mb-2">

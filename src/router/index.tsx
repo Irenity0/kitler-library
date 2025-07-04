@@ -1,3 +1,4 @@
+import EditBookModal from "@/components/EditBookModal";
 import RootLayout from "@/layouts/RootLayout";
 import BorrowBookPage from "@/pages/BorrowBookForm";
 import BorrowSummaryPage from "@/pages/BorrowSummaryPage";
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: "edit-book/:id",
-        element: <p>Edit Book</p>,
+        element: <EditBookModal/>,
       },
       {
         path: "borrow/:id",

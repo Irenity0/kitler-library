@@ -266,7 +266,7 @@ const BookTable = () => {
                         </span>
                       </td>
                       <td className="px-2 py-2 flex gap-1">
-                        <Button size="sm">Edit</Button>
+                        <Button size="sm"><Link to={`/edit-book/${book._id}`}>Edit</Link></Button>
                         <Button variant="destructive" size="sm">
                           Delete
                         </Button>

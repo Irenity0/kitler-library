@@ -44,7 +44,7 @@ const AddBookForm = () => {
   return (
     <div
       className={`p-6 rounded-lg mx-auto shadow border border-border ${
-        isCreateRoute ? "w-1/2" : ""
+        isCreateRoute ? "w-1/2" : "w-full m-4"
       }`}
     >
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">

@@ -32,7 +32,7 @@ const BorrowSummaryPage = () => {
 
   return (
     <div className="mx-auto p-6">
-      <div className="flex items-center justify-center my-10">
+      <div className="flex items-center justify-center mt-6 mb-10">
         <SplitText
           text="Borrowed Books Summary"
           className="text-3xl text-center font-bold"
