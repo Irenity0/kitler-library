@@ -1,181 +1,25 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import type { Book } from "@/ui/BookTable";
 import SplitText from "@/ui/SplitText";
+import toast from "react-hot-toast";
 
-// Example books list — replace with API or context if needed
-const books: Book[] = [
-  {
-    _id: "1",
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    genre: "Classic",
-    isbn: "9780743273565",
-    copies: 3,
-  },
-  {
-    _id: "2",
-    title: "1984",
-    author: "George Orwell",
-    genre: "Dystopian",
-    isbn: "9780451524935",
-    copies: 0,
-  },
-  {
-    _id: "3",
-    title: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    genre: "Historical",
-    isbn: "9780061120084",
-    copies: 5,
-  },
-  {
-    _id: "4",
-    title: "Omniscient Reader's Viewpoint",
-    author: "Sing Shong",
-    genre: "Web Novel, Fantasy",
-    isbn: "9781648965239",
-    copies: 4,
-  },
-  {
-    _id: "5",
-    title: "Death Note (Vol. 1)",
-    author: "Tsugumi Ohba",
-    genre: "Manga, Thriller",
-    isbn: "9781421501686",
-    copies: 0,
-  },
-  {
-    _id: "6",
-    title: "Tokyo Ghoul (Vol. 1)",
-    author: "Sui Ishida",
-    genre: "Manga, Horror",
-    isbn: "9781421599575",
-    copies: 3,
-  },
-  {
-    _id: "7",
-    title: "Monster",
-    author: "Naoki Urasawa",
-    genre: "Manga, Psychological Thriller",
-    isbn: "9781421529199",
-    copies: 1,
-  },
-  {
-    _id: "8",
-    title: "The 48 Laws of Power",
-    author: "Robert Greene",
-    genre: "Psychology, Non-fiction",
-    isbn: "9780140280197",
-    copies: 6,
-  },
-  {
-    _id: "9",
-    title: "Berserk (Vol. 1)",
-    author: "Kentaro Miura",
-    genre: "Manga, Dark Fantasy",
-    isbn: "9781591168918",
-    copies: 2,
-  },
-  {
-    _id: "10",
-    title: "The Silent Patient",
-    author: "Alex Michaelides",
-    genre: "Psychological Thriller",
-    isbn: "9781250301697",
-    copies: 0,
-  },
-  {
-    _id: "11",
-    title: "Goodnight Punpun",
-    author: "Inio Asano",
-    genre: "Manga, Psychological",
-    isbn: "9781596434025",
-    copies: 1,
-  },
-  {
-    _id: "12",
-    title: "Killing Stalking (Vol. 1)",
-    author: "Koogi",
-    genre: "Manhwa, Psychological Thriller",
-    isbn: "9781626927318",
-    copies: 3,
-  },
-  {
-    _id: "13",
-    title: "Parasyte (Vol. 1)",
-    author: "Hitoshi Iwaaki",
-    genre: "Manga, Sci-Fi Horror",
-    isbn: "9781421520241",
-    copies: 0,
-  },
-  {
-    _id: "14",
-    title: "Legend of the Sun Knight",
-    author: "Yu Wo",
-    genre: "Light Novel, Fantasy",
-    isbn: "9781948286798",
-    copies: 5,
-  },
-  {
-    _id: "15",
-    title: "Chainsaw Man (Vol. 1)",
-    author: "Tatsuki Fujimoto",
-    genre: "Manga, Dark Fantasy",
-    isbn: "9781974709034",
-    copies: 4,
-  },
-  {
-    _id: "16",
-    title: "Noragami (Vol. 1)",
-    author: "Adachitoka",
-    genre: "Manga, Supernatural",
-    isbn: "9780316209840",
-    copies: 0,
-  },
-  {
-    _id: "17",
-    title: "Death Parade: End of the World",
-    author: "Yuzuki N",
-    genre: "Light Novel, Psychological",
-    isbn: "9784049129321",
-    copies: 2,
-  },
-  {
-    _id: "18",
-    title: "Solanin",
-    author: "Inio Asano",
-    genre: "Manga, Slice of Life",
-    isbn: "9781934287256",
-    copies: 2,
-  },
-  {
-    _id: "19",
-    title: "The Book Thief",
-    author: "Markus Zusak",
-    genre: "Historical Fiction",
-    isbn: "9780375842207",
-    copies: 4,
-  },
-  {
-    _id: "20",
-    title: "Made in Abyss (Vol. 1)",
-    author: "Akihito Tsukushi",
-    genre: "Manga, Fantasy",
-    isbn: "9781974709393",
-    copies: 3,
-  },
-];
+import {
+  useGetBookByIdQuery,
+  useUpdateBookMutation,
+} from "@/redux/features/api/booksApi";
 
 const EditBookPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
+  // ✅ Fetch single book
+  const { data, isLoading, isError } = useGetBookByIdQuery(id!);
+  const book = data?.data;
+
+  // ✅ Local form state
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -184,44 +28,63 @@ const EditBookPage = () => {
     copies: 0,
   });
 
+  // ✅ Pre-fill form when book is loaded
   useEffect(() => {
-    const foundBook = books.find((b) => b._id === id);
-    if (foundBook) {
+    if (book) {
       setFormData({
-        title: foundBook.title,
-        author: foundBook.author,
-        genre: foundBook.genre,
-        isbn: foundBook.isbn,
-        copies: foundBook.copies,
+        title: book.title,
+        author: book.author,
+        genre: book.genre,
+        isbn: book.isbn,
+        copies: book.copies,
       });
-    } else {
-      // If not found, redirect or show error
-      navigate("/");
     }
-  }, [id, navigate]);
+  }, [book]);
+
+  // ✅ Update book mutation
+  const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: name === "copies" ? parseInt(value) : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!id) return;
 
-    // TODO: Submit your update via API
-    console.log("Updated Book:", formData);
-
-    // Redirect or show success
-    navigate("/");
+    try {
+      await updateBook({ id, data: formData }).unwrap();
+      toast.success("Book updated successfully!");
+      navigate("/"); // Or navigate to books list
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update book.");
+    }
   };
 
   const handleAnimationComplete = () => {
     console.log("All letters have animated!");
   };
+
+  if (isLoading) {
+    return (
+      <div className="text-center text-muted-foreground p-8">
+        Loading book data...
+      </div>
+    );
+  }
+
+  if (isError || !book) {
+    return (
+      <div className="text-center text-red-500 p-8">
+        Book not found or failed to load.
+      </div>
+    );
+  }
 
   return (
     <>
@@ -302,8 +165,12 @@ const EditBookPage = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Save Changes
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isUpdating}
+          >
+            {isUpdating ? "Saving..." : "Save Changes"}
           </Button>
         </form>
       </div>

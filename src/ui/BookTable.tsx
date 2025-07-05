@@ -5,7 +5,7 @@ import SplitText from "./SplitText";
 import AddBookModal from "@/components/ui/AddBookModal";
 import toast from "react-hot-toast";
 
-import { useGetBooksQuery } from "@/redux/features/api/booksApi";
+import { useGetBooksQuery, useDeleteBookMutation  } from "@/redux/features/api/booksApi";
 
 export interface Book {
   _id: string;
@@ -22,15 +22,21 @@ const BookTable = () => {
 
   // Fetch books for the current page
   const { data, isLoading, isError } = useGetBooksQuery(page);
+  const [deleteBook] = useDeleteBookMutation();
 
   const books = data?.data ?? [];
   const pagination = data?.pagination;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleDelete = (bookId: string) => {
+const handleDelete = async (bookId: string) => {
+  try {
+    await deleteBook(bookId).unwrap();
     toast.success("Book deleted successfully!");
-    // TODO: Implement actual delete logic here
-  };
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to delete book.");
+  }
+};
+
 
   const handleAnimationComplete = () => {
     console.log("All letters have animated!");
