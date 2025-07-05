@@ -8,13 +8,15 @@ export interface IBook {
   copies: number;
   available: boolean;
 }
-
 export interface IBorrow {
   _id: string;
-  bookId: string;
+  book: string;
   quantity: number;
-  dueDate: string; // ISO date string
+  dueDate: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
 
 export interface IBorrowSummary {
   bookTitle: string;

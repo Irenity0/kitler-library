@@ -9,16 +9,17 @@ export const borrowApi = createApi({
   tagTypes: ["Borrows", "BorrowSummary"],
 
   endpoints: (builder) => ({
+    
     borrowBook: builder.mutation<
       IBorrow,
-      { bookId: string; data: Partial<IBorrow> }
+      { data: Partial<IBorrow> }
     >({
-      query: ({ bookId, data }) => ({
-        url: `/borrow/${bookId}`,
+      query: ({ data }) => ({
+        url: `/borrow`,
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Borrows", "BorrowSummary"], // if you have separate caches
+      invalidatesTags: ["Borrows", "BorrowSummary"],
     }),
 
     getBorrowSummary: builder.query<IBorrowSummary[], void>({
