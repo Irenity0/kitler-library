@@ -16,6 +16,7 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: HomePage,
+        hydrateFallbackElement: <p>loading....</p>
       },
       {
         path: "ping",

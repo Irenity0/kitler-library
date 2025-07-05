@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { IBook } from "../../../types/common";
+import type { BooksResponse } from "@/types/response";
 
 export const booksApi = createApi({
   reducerPath: "booksApi",
@@ -10,8 +11,8 @@ export const booksApi = createApi({
 
   endpoints: (builder) => ({
     // 👉 GET: Fetch all books
-    getBooks: builder.query<IBook[], void>({
-      query: () => "/books",
+    getBooks: builder.query<BooksResponse, number>({
+      query: (page = 1) => `/books?page=${page}`,
       providesTags: ["Books"],
     }),
 
