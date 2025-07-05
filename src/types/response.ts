@@ -11,3 +11,9 @@ export interface BooksResponse {
     pages: number;
   };
 }
+
+export interface BookResponse {
+  success: boolean;
+  message: string;
+  data: IBook; // NOT IBook[]
+}
