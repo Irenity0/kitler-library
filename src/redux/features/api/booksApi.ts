@@ -5,7 +5,7 @@ import type { BookResponse, BooksResponse } from "@/types/response";
 export const booksApi = createApi({
   reducerPath: "booksApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api", // 🔗 Replace with your backend API base URL
+    baseUrl: "https://assignment-2-three-alpha.vercel.app/api", // 🔗 Replace with your backend API base URL
   }),
   tagTypes: ["Books", "Borrows", "BorrowSummary"],
 

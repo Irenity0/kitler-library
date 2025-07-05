@@ -4,7 +4,7 @@ import type { BorrowSummaryResponse, IBorrow } from "../../../types/common";
 export const borrowApi = createApi({
   reducerPath: "borrowApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://assignment-2-three-alpha.vercel.app/api",
   }),
   tagTypes: ["Borrows", "BorrowSummary", "Books"],
 
