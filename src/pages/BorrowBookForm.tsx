@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import SplitText from "@/ui/SplitText";
-
 import { useGetBookByIdQuery } from "@/redux/features/api/booksApi"; // single book fetch hook
 import { useBorrowBookMutation } from "@/redux/features/api/borrowApi";
 
@@ -15,7 +14,6 @@ const BorrowBookPage = () => {
 
   // Fetch the single book by ID
   const { data, isLoading, isError } = useGetBookByIdQuery(id!);
-
   const book = data?.data;
 
   const [borrowBook] = useBorrowBookMutation();

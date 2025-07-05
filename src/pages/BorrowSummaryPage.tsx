@@ -1,34 +1,20 @@
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import SplitText from "@/ui/SplitText";
-
-interface BorrowedBook {
-  id: string;
-  title: string;
-  quantity: number;
-  dueDate: string; // ISO date string
-}
-
-// Example data — replace with real source
-const borrowedBooks: BorrowedBook[] = [
-  {
-    id: "1",
-    title: "The Great Gatsby",
-    quantity: 1,
-    dueDate: "2025-07-30",
-  },
-  {
-    id: "2",
-    title: "To Kill a Mockingbird",
-    quantity: 2,
-    dueDate: "2025-08-05",
-  },
-];
+import { useGetBorrowSummaryQuery } from "@/redux/features/api/borrowApi";
 
 const BorrowSummaryPage = () => {
+  const { data, error, isLoading } = useGetBorrowSummaryQuery();
+
   const handleAnimationComplete = () => {
     console.log("All letters have animated!");
   };
+
+  if (isLoading) return <p className="text-center">Loading borrowed books...</p>;
+  if (error) return <p className="text-center text-red-500">Failed to load borrowed books.</p>;
+
+  const borrowedBooks = data?.data ?? [];  // <-- data.data contains the array
+
 
   return (
     <div className="mx-auto p-6">
@@ -58,21 +44,17 @@ const BorrowSummaryPage = () => {
               <tr>
                 <th className="px-2 py-1 text-left">Title</th>
                 <th className="px-2 py-1 text-left">Quantity</th>
-                <th className="px-2 py-1 text-left">Due Date</th>
                 <th className="px-5 py-1 text-left">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {borrowedBooks.map((book) => (
-                <tr key={book.id} className="hover:bg-muted/40">
-                  <td className="px-2 py-1">{book.title}</td>
-                  <td className="px-2 py-1">{book.quantity}</td>
-                  <td className="px-2 py-1">
-                    {new Date(book.dueDate).toLocaleDateString()}
-                  </td>
+              {borrowedBooks.map((item, index) => (
+                <tr key={index} className="hover:bg-muted/40">
+                  <td className="px-2 py-1">{item.book.title}</td>
+                  <td className="px-2 py-1">{item.totalQuantity}</td>
                   <td className="px-2 py-1">
                     <Button variant="link" size="sm">
-                      <Link to={`/books/${book.id}`}>Details</Link>
+                      <Link to={`/books/${item.book.isbn}`}>Details</Link>
                     </Button>
                   </td>
                 </tr>

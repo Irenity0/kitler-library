@@ -17,10 +17,16 @@ export interface IBorrow {
   updatedAt?: string;
 }
 
-
-export interface IBorrowSummary {
-  bookTitle: string;
-  isbn: string;
-  totalQuantityBorrowed: number;
+export interface BorrowSummaryResponse {
+  success: boolean;
+  message: string;
+  data: IBorrowSummary[];
 }
 
+export interface IBorrowSummary {
+  book: {
+    title: string;
+    isbn: string;
+  };
+  totalQuantity: number;
+}
