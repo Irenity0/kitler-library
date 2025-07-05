@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import SplitText from "./SplitText";
 import AddBookModal from "@/components/ui/AddBookModal";
+import toast from "react-hot-toast";
 
 export interface Book {
   _id: string;
@@ -182,6 +183,13 @@ const BookTable = () => {
     },
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleDelete = (bookId: string) => {
+  toast.success("Book deleted successfully!");
+  // TODO: Here you can add logic to actually remove it from your state or DB
+};
+
+
   const handleAnimationComplete = () => {
     console.log("All letters have animated!");
   };
@@ -267,7 +275,7 @@ const BookTable = () => {
                       </td>
                       <td className="px-2 py-2 flex gap-1">
                         <Button size="sm"><Link to={`/edit-book/${book._id}`}>Edit</Link></Button>
-                        <Button variant="destructive" size="sm">
+                        <Button onClick={() => handleDelete(book._id)} variant="destructive" size="sm">
                           Delete
                         </Button>
                         <Button

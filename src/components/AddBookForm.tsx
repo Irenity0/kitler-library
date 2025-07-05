@@ -1,45 +1,84 @@
-"use client";
-
 import { useState } from "react";
-import { useLocation } from "react-router"; 
+import { useLocation, useNavigate } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useAddBookMutation } from "@/redux/features/api/booksApi";
+import toast from "react-hot-toast";
+import { GenreOptions, type Genre } from "@/types/genre";
+
+type FormData = {
+  title: string;
+  author: string;
+  genre: Genre | "";  // allow empty string for default
+  isbn: string;
+  description: string;
+  copies: number;
+};
 
 const AddBookForm = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isCreateRoute = location.pathname === "/create-book";
 
-  const [formData, setFormData] = useState({
+  const [addBook, { isLoading, error }] = useAddBookMutation();
+
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     author: "",
     genre: "",
     isbn: "",
+    description: "",
     copies: 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "copies" ? parseInt(value) : value,
+      [name]: name === "copies" ? parseInt(value) || 0 : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("New Book:", formData);
 
-    // Reset form
-    setFormData({
-      title: "",
-      author: "",
-      genre: "",
-      isbn: "",
-      copies: 0,
-    });
+    if (!formData.genre) {
+      toast.error("Please select a genre");
+      return;
+    }
+
+    try {
+      await addBook({
+        ...formData,
+        available: formData.copies > 0,
+      }).unwrap();
+
+      toast.success("Book added successfully!");
+      navigate("/books");
+
+      setFormData({
+        title: "",
+        author: "",
+        genre: "",
+        isbn: "",
+        description: "",
+        copies: 0,
+      });
+    } catch (err) {
+      console.error("Failed to add book:", err);
+      toast.error("Failed to add book. Please try again.");
+    }
   };
+
+  const errorMessage =
+    error && typeof error === "object" && "data" in error && error.data
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ? (error as any).data.message
+      : null;
 
   return (
     <div
@@ -48,8 +87,11 @@ const AddBookForm = () => {
       }`}
     >
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        {/* Title */}
         <div>
-          <Label className="mb-2" htmlFor="title">Title</Label>
+          <Label className="mb-2" htmlFor="title">
+            Title
+          </Label>
           <Input
             id="title"
             name="title"
@@ -60,8 +102,11 @@ const AddBookForm = () => {
           />
         </div>
 
+        {/* Author */}
         <div>
-          <Label className="mb-2" htmlFor="author">Author</Label>
+          <Label className="mb-2" htmlFor="author">
+            Author
+          </Label>
           <Input
             id="author"
             name="author"
@@ -72,20 +117,47 @@ const AddBookForm = () => {
           />
         </div>
 
+        {/* Genre select */}
         <div>
-          <Label className="mb-2" htmlFor="genre">Genre</Label>
+          <Label className="mb-2" htmlFor="genre">
+            Genre
+          </Label>
+          <select
+  id="genre"
+  name="genre"
+  value={formData.genre}
+  onChange={handleChange}
+  required
+  className="w-full rounded border border-gray-300 px-3 py-2"
+>
+  <option value="">Select a genre</option>
+  {GenreOptions.map((g) => (
+    <option key={g} value={g}>
+      {g.replace("_", " ")}
+    </option>
+  ))}
+</select>
+        </div>
+
+        {/* Description */}
+        <div>
+          <Label className="mb-2" htmlFor="description">
+            Description
+          </Label>
           <Input
-            id="genre"
-            name="genre"
-            value={formData.genre}
+            id="description"
+            name="description"
+            value={formData.description}
             onChange={handleChange}
-            placeholder="e.g. Manga, Fantasy"
-            required
+            placeholder="Optional description"
           />
         </div>
 
+        {/* ISBN */}
         <div>
-          <Label className="mb-2" htmlFor="isbn">ISBN</Label>
+          <Label className="mb-2" htmlFor="isbn">
+            ISBN
+          </Label>
           <Input
             id="isbn"
             name="isbn"
@@ -96,8 +168,11 @@ const AddBookForm = () => {
           />
         </div>
 
+        {/* Copies */}
         <div>
-          <Label className="mb-2" htmlFor="copies">Copies</Label>
+          <Label className="mb-2" htmlFor="copies">
+            Copies
+          </Label>
           <Input
             id="copies"
             name="copies"
@@ -108,8 +183,12 @@ const AddBookForm = () => {
           />
         </div>
 
-        <Button type="submit" className="w-full">
-          Add Book
+        {/* Error message */}
+        {errorMessage && <p className="text-red-500">Error: {errorMessage}</p>}
+
+        {/* Submit button */}
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Adding..." : "Add Book"}
         </Button>
       </form>
     </div>
